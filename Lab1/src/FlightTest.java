@@ -28,7 +28,7 @@ public class FlightTest{
     }
     @Test
     public void testInvalidConstructor(){
-        
+
     }
     @Test
     public void bookASeatTest(){
