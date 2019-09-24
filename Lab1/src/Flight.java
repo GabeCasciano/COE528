@@ -1,3 +1,4 @@
+
 public class Flight {
 
     private int flightNumber;
@@ -18,11 +19,10 @@ public class Flight {
      * @param originalPrice
      */
     public Flight(int flightNumber, String origin, String destination, String departureTime, int capacity, double originalPrice){
-        try{
-            if(origin.equals(destination)) {
-                throw new IllegalArgumentException("DESTINATION and ORIGIN of flight # " + flightNumber + " are the same, Invalid Initialization");
-            }
-            else{
+        try {
+            if (origin.equals(destination))
+                throw new IllegalArgumentException("Invalid, detination may not equal origin");
+            else {
                 this.flightNumber = flightNumber;
                 this.origin = origin;
                 this.destination = destination;
@@ -31,9 +31,11 @@ public class Flight {
                 this.numberOfSeatsLeft = capacity;
                 this.originalPrice = originalPrice;
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.toString());
         }
+        catch (IllegalArgumentException e){
+            System.out.println(e);
+        }
+
     }
 
     /**

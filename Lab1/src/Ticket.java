@@ -11,12 +11,11 @@ public class Ticket {
      *
      * @param passenger
      * @param flight
-     * @param price
      */
-    public Ticket(Passenger passenger, Flight flight, double price){
+    public Ticket(Passenger passenger, Flight flight){
         this.passenger = passenger;
         this.flight = flight;
-        this.price = price;
+        this.price = passenger.applyDiscount(flight.getOriginalPrice());
         this.number = ticketNumberMaster;
         ticketNumberMaster++;
     }
