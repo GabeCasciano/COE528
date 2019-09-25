@@ -13,8 +13,8 @@ public class FlightTest{
         assertEquals(testFlight1.getOrigin(), testFlightOriginal.getOrigin());
         assertEquals(testFlight1.getDestination(), testFlightOriginal.getDestination());
         assertEquals(testFlight1.getDepartureTime(), testFlightOriginal.getDepartureTime());
-        assertEquals(testFlight1.getOriginalPrice(), testFlightOriginal.getOriginalPrice());
-        assertEquals(testFlight1.getNumberOfSeatsLeft(), testFlightOriginal.getFlightNumber());
+        assertEquals(testFlight1.getOriginalPrice(), testFlightOriginal.getOriginalPrice(), 0.0);
+        assertEquals(testFlight1.getNumberOfSeatsLeft(), testFlightOriginal.getNumberOfSeatsLeft());
 
         testFlight1 = new Flight(testFlightOriginal.getFlightNumber(), testFlightOriginal.getOrigin(), testFlightOriginal.getDestination(), testFlightOriginal.getDepartureTime(), testFlightOriginal.getCapacity(), testFlightOriginal.getOriginalPrice());
 
@@ -23,8 +23,8 @@ public class FlightTest{
         assertEquals(testFlight1.getOrigin(), testFlightOriginal.getOrigin());
         assertEquals(testFlight1.getDestination(), testFlightOriginal.getDestination());
         assertEquals(testFlight1.getDepartureTime(), testFlightOriginal.getDepartureTime());
-        assertEquals(testFlight1.getOriginalPrice(), testFlightOriginal.getOriginalPrice());
-        assertEquals(testFlight1.getNumberOfSeatsLeft(), testFlightOriginal.getFlightNumber());
+        assertEquals(testFlight1.getOriginalPrice(), testFlightOriginal.getOriginalPrice(), 0.0);
+        assertEquals(testFlight1.getNumberOfSeatsLeft(), testFlightOriginal.getNumberOfSeatsLeft());
     }
     @Test
     public void testInvalidConstructor(){
@@ -64,7 +64,7 @@ public class FlightTest{
 
         //Case 2
         occupiedReset = testFlight1.setCapacity(95, false);
-        assertEquals(occupiedReset, true);
+        assertEquals(occupiedReset, false);
         //reset object
         testFlight1 = new Flight(testFlightOriginal);
 

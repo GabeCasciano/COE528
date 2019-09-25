@@ -9,14 +9,14 @@ public class Flight {
     private int numberOfSeatsLeft;
     private double originalPrice;
 
-    /**
+    /**Default Constructor
      *
-     * @param flightNumber
-     * @param origin
-     * @param destination
-     * @param departureTime
-     * @param capacity
-     * @param originalPrice
+     * @param flightNumber - Flight number
+     * @param origin - Origin of the Flight
+     * @param destination - Destination of Flight
+     * @param departureTime - Departure Time of Flight
+     * @param capacity - Capacity of Flight
+     * @param originalPrice - Original price of Flight
      */
     public Flight(int flightNumber, String origin, String destination, String departureTime, int capacity, double originalPrice){
         try {
@@ -38,7 +38,7 @@ public class Flight {
 
     }
 
-    /**
+    /**Copy Constructor
      *
      * @param flight
      */
@@ -61,9 +61,9 @@ public class Flight {
         }
     }
 
-    /**
+    /**Use this function to book a seat
      *
-     * @return
+     * @return boolean if true, seat is book, if false seat is not booked
      */
     public boolean bookASeat(){
         if(numberOfSeatsLeft > 0){
@@ -77,7 +77,7 @@ public class Flight {
 
     /**
      *
-     * @return
+     * @return String form flight
      */
     @Override
     public String toString(){
@@ -132,7 +132,7 @@ public class Flight {
     /**
      *
      * @param capacity
-     * @param clearPlane
+     * @param clearPlane - if true, plane is cleared, if false, plane isnt cleared unless its required.
      * @return
      */
     public boolean setCapacity(int capacity, boolean clearPlane){// true if numberOfSeats is adjusted, false if numberOfSeats is reset

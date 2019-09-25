@@ -16,8 +16,7 @@ public class Ticket {
         this.passenger = passenger;
         this.flight = flight;
         this.price = passenger.applyDiscount(flight.getOriginalPrice());
-        this.number = ticketNumberMaster;
-        ticketNumberMaster++;
+        this.number = ticketNumberMaster++;
     }
 
     /**
