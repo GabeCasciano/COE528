@@ -1,5 +1,6 @@
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import lab1.Flight;
 
 public class FlightTest{
     public static Flight testFlightOriginal = new Flight (1, "Toronto", "New York", "09/10/19 6:40pm", 100, 500.0) ;

@@ -1,3 +1,5 @@
+package lab1;
+
 public abstract class Passenger {
     private String name;
     private int age;

@@ -1,3 +1,5 @@
+package lab1;
+
 public class NonMember extends Passenger {
     /**
      *

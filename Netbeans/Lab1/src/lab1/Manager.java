@@ -1,3 +1,4 @@
+package lab1;
 /*
  Test:
  -Create 2 flights
@@ -11,7 +12,6 @@
  -
  */
 
-import javax.swing.*;
 import java.util.*;
 
 public class Manager {

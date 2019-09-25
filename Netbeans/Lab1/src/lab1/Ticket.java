@@ -1,4 +1,5 @@
-//Helo World
+package lab1;
+
 public class Ticket {
 
     private static int ticketNumberMaster = 1;
