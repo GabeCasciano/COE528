@@ -1,15 +1,16 @@
 package coe528.lab3;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Odometer extends AbstractCounter{
     DigitCounter digitCounter;
-    List<LinkedCounter> list;
+    List<LinkedCounter> list = new ArrayList<LinkedCounter>();
     public Odometer(int size){
         if(size < 1)
             throw new IllegalArgumentException("size is too small");
 
-        digitCounter = new DigitCounter();
+        digitCounter = new DigitCounter(size);
         list.add(new LinkedCounter(digitCounter));//add digit counter to first linked counter
 
 
@@ -21,25 +22,28 @@ public class Odometer extends AbstractCounter{
                -Digit 1
                -Digit 0
          */
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < size-1; i++)
             list.add(new LinkedCounter(list.get(i)));
     }
 
     @Override
     public String count(){
-        LinkedCounter temp = new LinkedCounter(list.get(list.size()));//we want the last index of the list (least significant digit)
-        return temp.count();
+        return list.get(list.size()-1).count();
     }
 
     @Override
     public void increment(){
-        LinkedCounter temp = new LinkedCounter(list.get(list.size()));
-        temp.increment();
+        list.get(list.size()-1).increment();
     }
 
     @Override
     public void decrement() {
-        LinkedCounter temp = new LinkedCounter(list.get(list.size()));
+        LinkedCounter temp = new LinkedCounter(list.get(list.size()-1));
         temp.decrement();
+    }
+
+    @Override
+    public void reset(){
+        list.get(list.size()-1).reset();
     }
 }

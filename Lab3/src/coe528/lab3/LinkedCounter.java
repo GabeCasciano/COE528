@@ -6,6 +6,7 @@ public class LinkedCounter extends AbstractCounter{
     public LinkedCounter(AbstractCounter neighbor){
         super();
         this.neighbor = neighbor;
+        counter = 0;
     }
     @Override
     public String count(){
@@ -32,12 +33,13 @@ public class LinkedCounter extends AbstractCounter{
         else{
             if(neighbor.getClass() != DigitCounter.class)
                 neighbor.decrement();
-            counter = 0;
+            counter = 9;
         }
     }
     @Override
     public void reset(){
-        neighbor.reset();
+       if(neighbor.getClass() != DigitCounter.class)
+           neighbor.reset();
         counter = 0;
     }
 }
