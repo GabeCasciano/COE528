@@ -1,14 +1,34 @@
-package coe528.project.func.Users;
-/*
-    All purchases must be greater than 50$
-
-    There needs to be:
-        Platinum = acnt bal. >= 20k, free
-        Gold = acnt bal. >= 10k, 10$ fee per purchase
-        Silver = acnt bal. < 10k, 20$ Fee per purchase
+/** Bank App - COE528
+ @author Gabriel Casciano, 500744076
+ @since Nov,13, 2019
+ @version 0.1
  */
+package coe528.project.func.Users;
 
-
+/**
+ *
+ * The Customer class extends the User class, modifies toString method
+ */
 public class Customer extends User{
-    public Customer(String username, String password){ super(username, password);}
+
+    /** Normal Constructor
+     *
+     * @param username The intended username for the new Customer object
+     * @param password The intended password for the new Customer Object
+     * @throws Exception if the password format is not correct, or an exception will be thrown
+     */
+    public Customer(String username, String password) throws Exception{
+        super(username, password);
+    }
+
+    /**
+     * Modified version of the default User toString(), specifies that this is a CUSTOMER
+     *
+     * @return Customer signifier, and username
+     */
+    @Override
+    public String toString() {
+        return "Customer " +  super.toString();
+    }
+
 }
