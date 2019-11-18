@@ -44,23 +44,89 @@ public class Bank {
             throw new IllegalCallerException("Not an admin");
         if(customer == null)
             throw new NullPointerException("customer is null");
-        for(Customer c : customers){
-            if(c.getId() == customer.getId() || c.getUsername().equals(c.getUsername()))
-                throw new IllegalArgumentException("Customer already exists");
-        }
+        if(customers.contains(customer))
+            throw new IllegalArgumentException("customer already exists");
         customers.add(new Customer(customer));
     }
-    public void removeCustomer(Customer customer, Manager admin){}
-    public void addAccount(Account account, Manager admin){}
-    public void removeAccount(Account account, Manager admin){}
+    public void removeCustomer(Customer customer, Manager admin)throws Exception{
+        if(admin.getClass() != Manager.class)
+            throw new IllegalCallerException("Not an admin");
+        if(customer == null)
+            throw new NullPointerException("customer is null");
+        if(!customers.remove(customer))
+            throw new IllegalArgumentException("Customer does not exist");
+    }
+    public String addAccount(Customer customer, double initialBalance, Manager admin) throws Exception{
+        if(admin.getClass() != Manager.class)
+            throw new IllegalCallerException("Not an admin");
+        if(customer == null)
+            throw new NullPointerException("customer is null");
+        if(initialBalance < 0)
+            throw new IllegalArgumentException("Initial balance cannot be less than 0");
+
+        Account a = new Account(initialBalance, customer);
+        accounts.add(a);
+        return a.toString();
+    }
+    public void removeAccount(Account account, Manager admin) throws Exception{
+        if(admin.getClass() != Manager.class)
+            throw new IllegalCallerException("Not an admin");
+        if(account == null)
+            throw new NullPointerException("account is null");
+        if(!accounts.remove(account))
+            throw new IllegalArgumentException("account does not exist");
+    }
+    public void removeAccount(Customer customer, Manager admin) throws Exception{
+        if(admin.getClass() != Manager.class)
+            throw new IllegalCallerException("Not an admin");
+        if(customer == null)
+            throw new NullPointerException("customer is null");
+        for(Account a : accounts){
+            if(a.getOwner() == customer)
+                accounts.remove(a);
+        }
+    }
 
     //customer functions
-    public void makeDeposit(Account account, User user, double amount){}
-    public void makeWithdraw(Account account, User user, double amount){}
-    public void makePurchase(Account account, User user, double amount){}
+    public void makeDeposit(Account account, User user, double amount) throws Exception{
+        if(user == null || customers.contains(user) || managers.contains(user))
+            throw new IllegalArgumentException("user does not exist");
+        if(account == null || accounts.contains(account))
+            throw new IllegalArgumentException("account does not exist");
 
-    //functionality
-    public double roundVal(double amount){ double scale = Math.pow(10, 2); return Math.round(amount * scale)/scale; }
+        Account a = accounts.get(accounts.indexOf(account));
+        if(a.getOwner() != user)
+            throw new IllegalCallerException("User does not match user on the account");
+
+        a.deposit(amount);
+    }
+    public void makeWithdraw(Account account, User user, double amount) throws Exception{
+        if(user == null || customers.contains(user) || managers.contains(user))
+            throw new IllegalArgumentException("user does not exist");
+        if(account == null || accounts.contains(account))
+            throw new IllegalArgumentException("account does not exist");
+
+        Account a = accounts.get(accounts.indexOf(account));
+        if(a.getOwner() != user)
+            throw new IllegalCallerException("User does not match user on the account");
+
+        a.withdraw(amount);
+    }
+    public void makePurchase(Account account, User user, double amount) throws Exception{
+        if(user == null || customers.contains(user) || managers.contains(user))
+            throw new IllegalArgumentException("user does not exist");
+        if(account == null || accounts.contains(account))
+            throw new IllegalArgumentException("account does not exist");
+
+        Account a = accounts.get(accounts.indexOf(account));
+        if(a.getOwner() != user)
+            throw new IllegalCallerException("User does not match user on the account");
+
+        a.makePurchase(amount);
+    }
+
+
+    //database
     public void loadBackUp(){
         try{
             Class.forName("com.mysql.jdbc.Driver");

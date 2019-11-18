@@ -76,10 +76,8 @@ public class Account {
     public String toString(){
         return "Account Balance: $" + this.accountBalance + ", Account Number: " + accountNumber + ", Account Owner: " + owner.toString();
     }
-
     public String primarytoString(){
         return "Account Balance: $" + this.accountBalance;
     }
-
     public String toSql(){ return "INSERT INTO Accounts VALUES (" + this.accountNumber + "," + this.owner.getId() + "," + this.accountBalance; }
 }
