@@ -9,10 +9,22 @@ import coe528.project.func.Users.Customer;
 import coe528.project.func.Users.Manager;
 import coe528.project.func.Users.User;
 
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Bank {
+
+    // JDBC driver name and database URL
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost/BankApp_db";
+    //  Database credentials
+    static final String USER = "SA";
+    static final String PASS = "Friday13";
+    // More database bs
+    private Connection conn = null;
+    private Statement stmnt = null;
+
     private static List<Account> accounts = new LinkedList<>();
     private static List<Customer> customers = new LinkedList<>();
     private static List<Manager> managers = new LinkedList<>();
@@ -27,7 +39,17 @@ public class Bank {
     public List<Manager> getManagers(){ return managers; }
 
     //administration
-    public void addCustomer(Customer customer, Manager admin){}
+    public void addCustomer(Customer customer, Manager admin)throws Exception{
+        if(admin.getClass() != Manager.class)
+            throw new IllegalCallerException("Not an admin");
+        if(customer == null)
+            throw new NullPointerException("customer is null");
+        for(Customer c : customers){
+            if(c.getId() == customer.getId() || c.getUsername().equals(c.getUsername()))
+                throw new IllegalArgumentException("Customer already exists");
+        }
+        customers.add(new Customer(customer));
+    }
     public void removeCustomer(Customer customer, Manager admin){}
     public void addAccount(Account account, Manager admin){}
     public void removeAccount(Account account, Manager admin){}
@@ -39,5 +61,65 @@ public class Bank {
 
     //functionality
     public double roundVal(double amount){ double scale = Math.pow(10, 2); return Math.round(amount * scale)/scale; }
+    public void loadBackUp(){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
 
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmnt = conn.createStatement();
+            ResultSet rs = stmnt.executeQuery("SELECT id, usrnm, pswrd, isManager FROM Users ");
+
+            while(rs.next()){
+                if(rs.getBoolean("isManager"))
+                    managers.add(new Manager(rs.getInt("id"), rs.getString("usrnm"), rs.getString("pswrd")));
+                else
+                    customers.add(new Customer(rs.getInt("id"), rs.getString("usrnm"), rs.getString("pswrd")));
+                rs.close();
+            }
+
+            rs = stmnt.executeQuery("SELECT id, clientid, accntBalance FROM Accounts");
+
+            while (rs.next()){
+                for(Customer c : customers) {
+                    if(rs.getInt("id") == c.getId())
+                        accounts.add(new Account(rs.getInt("accntBalance"), c));
+                    else
+                        throw new Exception("no customer with that id");
+                }
+            }
+        }
+        catch (Exception e){
+
+        }
+    }
+    public void backUp(){//back up to sql db
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmnt = conn.createStatement();
+
+            for(Account a : accounts)
+                stmnt.executeUpdate(a.toSql());
+            for(User u : customers)
+                stmnt.executeUpdate(u.toSql());
+            for(User u : managers)
+                stmnt.executeUpdate(u.toSql());
+        }
+        catch(SQLException se){
+            se.printStackTrace();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            try{
+                if(stmnt != null)
+                    conn.close();
+            }
+            catch (SQLException se){
+                se.printStackTrace();
+            }
+        }
+    }
 }

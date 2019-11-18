@@ -21,6 +21,21 @@ public class Manager extends User {
         super(username, password);
     }
 
+    /**
+     *
+     * @param id
+     * @param username
+     * @param password
+     * @throws Exception
+     */
+    public Manager(int id, String username, String password) throws Exception{
+        super(id, username, password);
+    }
+
+    public Manager(Manager manager) throws Exception{
+        super(manager.getId(), manager.getUsername(), manager.getPassword());
+    }
+
 
 
     /**

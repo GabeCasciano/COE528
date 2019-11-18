@@ -1,4 +1,4 @@
-package coe528.project.display;
+/*package coe528.project.display;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -19,4 +19,4 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-}
+}*/

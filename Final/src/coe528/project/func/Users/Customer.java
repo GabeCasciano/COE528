@@ -21,6 +21,21 @@ public class Customer extends User{
         super(username, password);
     }
 
+    public Customer(Customer customer) throws Exception{
+        super(customer.getId(), customer.getUsername(), customer.getPassword());
+    }
+
+    /**
+     *
+     * @param id
+     * @param username
+     * @param password
+     * @throws Exception
+     */
+    public Customer(int id, String username, String password) throws Exception{
+        super(id, username, password);
+    }
+
     /**
      * Modified version of the default User toString(), specifies that this is a CUSTOMER
      *

@@ -12,6 +12,8 @@ public abstract class User {
 
     private String username;
     private String password;
+    private int id;
+    private static int USER_ID = 1;
 
     /** Constructor
      *
@@ -21,6 +23,7 @@ public abstract class User {
      */
     public User(String username, String password) throws Exception{
         this.username = username;
+        this.id = USER_ID++;
         this.setPassword(password);
     }
 
@@ -32,15 +35,38 @@ public abstract class User {
     public User(User user) throws Exception{
         this.setPassword(user.getPassword());
         this.setUsername(user.getUsername());
+        this.id = user.getId();
     }
 
+    /** Database load constructor
+     *
+     * @param id
+     * @param username
+     * @param password
+     * @throws Exception
+     */
+    public User(int id, String username, String password) throws Exception{
+        this.username = username;
+        this.id = id;
+        if(id > USER_ID)
+            USER_ID = id;
+        this.setPassword(password);
+
+    }
     /** Default Constructor
      *
      */
     public User(){
         this.username = "";
         this.password = "";
+        this.id = 0;
     }
+
+    /** Use to get User's id
+     *
+     * @return Int, this.id
+     */
+    public int getId(){ return this.id; }
 
     /** Use to get User's username
      *
@@ -73,8 +99,6 @@ public abstract class User {
      * @throws Exception
      */
     public void setPassword(String password) throws Exception {
-        if(this.password == null)
-            throw new Exception("Null is impossible? you should never see this exception");
         if(password.hashCode() == getPasswordHash())
             throw new Exception("Password matches the old password");
         if(password.trim().length() < 8)
@@ -92,5 +116,7 @@ public abstract class User {
     public String toString(){
         return "Username: " + this.username;
     }
+
+    public String toSql(){ return "INSERT INTO Users VALUES (" + this.id + "," + this.username + "," + this.password + "," + ((this.getClass() == Manager.class)?true:false) ; }
 
 }

@@ -80,4 +80,6 @@ public class Account {
     public String primarytoString(){
         return "Account Balance: $" + this.accountBalance;
     }
+
+    public String toSql(){ return "INSERT INTO Accounts VALUES (" + this.accountNumber + "," + this.owner.getId() + "," + this.accountBalance; }
 }
