@@ -1,4 +1,7 @@
 package coe528.project.display;
 
-public class Login {
+public class Login{
+    void Login(){
+    }
+
 }

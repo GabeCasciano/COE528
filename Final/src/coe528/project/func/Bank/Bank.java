@@ -10,20 +10,18 @@ import coe528.project.func.Users.Manager;
 import coe528.project.func.Users.User;
 
 import java.sql.*;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class Bank {
 
-    // JDBC driver name and database URL
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/BankApp_db";
-    //  Database credentials
-    static final String USER = "SA";
-    static final String PASS = "Friday13";
+
+    static final String DB_URL = "jdbc:sqlite:/home/gabriel/Documents/COE528/Final/bank.db";
     // More database bs
-    private Connection conn = null;
-    private Statement stmnt = null;
+    private static Connection conn = null;
+    private static Statement stmnt = null;
 
     private static List<Account> accounts = new LinkedList<>();
     private static List<Customer> customers = new LinkedList<>();
@@ -35,7 +33,7 @@ public class Bank {
 
     //get & set
     public List<Account> getAccounts(){ return accounts; }
-    public List<Customer> getCustomers(){ return customers; }
+    public List<Customer> getCustomers(){ return new LinkedList<>(customers); }
     public List<Manager> getManagers(){ return managers; }
 
     //administration
@@ -46,17 +44,31 @@ public class Bank {
             throw new NullPointerException("customer is null");
         if(customers.contains(customer))
             throw new IllegalArgumentException("customer already exists");
-        customers.add(new Customer(customer));
+        customers.add(customer);
     }
+    public void addCustomer(String username, String password, Manager admin)throws Exception{
+        if(admin.getClass() != Manager.class)
+            throw new IllegalCallerException("Not an admin");
+        if(username == null)
+            throw new NullPointerException("username is null");
+        if(password == null)
+            throw new NullPointerException("password is null");
+
+        customers.add(new Customer(username, password));
+    }
+
     public void removeCustomer(Customer customer, Manager admin)throws Exception{
         if(admin.getClass() != Manager.class)
             throw new IllegalCallerException("Not an admin");
         if(customer == null)
             throw new NullPointerException("customer is null");
-        if(!customers.remove(customer))
-            throw new IllegalArgumentException("Customer does not exist");
+        for(Iterator<Customer> c = customers.iterator(); c.hasNext();){
+            Customer cust = c.next();
+            if(cust.equals(customer))
+                c.remove();
+        }
     }
-    public String addAccount(Customer customer, double initialBalance, Manager admin) throws Exception{
+    public void addAccount(Customer customer, double initialBalance, Manager admin) throws Exception{
         if(admin.getClass() != Manager.class)
             throw new IllegalCallerException("Not an admin");
         if(customer == null)
@@ -64,26 +76,28 @@ public class Bank {
         if(initialBalance < 0)
             throw new IllegalArgumentException("Initial balance cannot be less than 0");
 
-        Account a = new Account(initialBalance, customer);
-        accounts.add(a);
-        return a.toString();
+        accounts.add(new Account(initialBalance, customer));
     }
     public void removeAccount(Account account, Manager admin) throws Exception{
         if(admin.getClass() != Manager.class)
             throw new IllegalCallerException("Not an admin");
         if(account == null)
             throw new NullPointerException("account is null");
-        if(!accounts.remove(account))
-            throw new IllegalArgumentException("account does not exist");
+        for(Iterator<Account> c = accounts.iterator(); c.hasNext();){
+            Account acnt = c.next();
+            if(acnt.getOwner().equals(account.getOwner()))
+                c.remove();
+        }
     }
     public void removeAccount(Customer customer, Manager admin) throws Exception{
         if(admin.getClass() != Manager.class)
             throw new IllegalCallerException("Not an admin");
         if(customer == null)
             throw new NullPointerException("customer is null");
-        for(Account a : accounts){
-            if(a.getOwner() == customer)
-                accounts.remove(a);
+        for(Iterator<Account> c = accounts.iterator(); c.hasNext();){
+            Account acnt = c.next();
+            if(acnt.getOwner().equals(customer))
+                c.remove();
         }
     }
 
@@ -94,11 +108,11 @@ public class Bank {
         if(account == null || accounts.contains(account))
             throw new IllegalArgumentException("account does not exist");
 
-        Account a = accounts.get(accounts.indexOf(account));
-        if(a.getOwner() != user)
-            throw new IllegalCallerException("User does not match user on the account");
-
-        a.deposit(amount);
+        for(Iterator<Account> a = accounts.iterator(); a.hasNext();){
+            Account acnt = a.next();
+            if(acnt.getOwner().equals(user))
+                acnt.deposit(amount);
+        }
     }
     public void makeWithdraw(Account account, User user, double amount) throws Exception{
         if(user == null || customers.contains(user) || managers.contains(user))
@@ -106,11 +120,11 @@ public class Bank {
         if(account == null || accounts.contains(account))
             throw new IllegalArgumentException("account does not exist");
 
-        Account a = accounts.get(accounts.indexOf(account));
-        if(a.getOwner() != user)
-            throw new IllegalCallerException("User does not match user on the account");
-
-        a.withdraw(amount);
+        for(Iterator<Account> a = accounts.iterator(); a.hasNext();){
+            Account acnt = a.next();
+            if(acnt.getOwner().equals(user))
+                acnt.withdraw(amount);
+        }
     }
     public void makePurchase(Account account, User user, double amount) throws Exception{
         if(user == null || customers.contains(user) || managers.contains(user))
@@ -118,59 +132,89 @@ public class Bank {
         if(account == null || accounts.contains(account))
             throw new IllegalArgumentException("account does not exist");
 
-        Account a = accounts.get(accounts.indexOf(account));
-        if(a.getOwner() != user)
-            throw new IllegalCallerException("User does not match user on the account");
-
-        a.makePurchase(amount);
+        for(Iterator<Account> a = accounts.iterator(); a.hasNext();){
+            Account acnt = a.next();
+            if(acnt.getOwner().equals(user))
+                acnt.purchase(amount);
+        }
     }
 
 
     //database
     public void loadBackUp(){
+
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn = DriverManager.getConnection(DB_URL);
             stmnt = conn.createStatement();
-            ResultSet rs = stmnt.executeQuery("SELECT id, usrnm, pswrd, isManager FROM Users ");
 
+            //Read Managers
+            ResultSet rs = stmnt.executeQuery("SELECT * FROM Managers");
+            while(rs.next())
+                managers.add(new Manager(rs.getInt("id"), rs.getString("username"),
+                        rs.getString("passord")));
+
+            rs = stmnt.executeQuery("SELECT * FROM Customers");
+            while (rs.next())
+                customers.add(new Customer(rs.getInt("id"), rs.getString("username"),
+                        rs.getString("password")));
+
+            rs = stmnt.executeQuery("SELECT * FROM Accounts");
             while(rs.next()){
-                if(rs.getBoolean("isManager"))
-                    managers.add(new Manager(rs.getInt("id"), rs.getString("usrnm"), rs.getString("pswrd")));
-                else
-                    customers.add(new Customer(rs.getInt("id"), rs.getString("usrnm"), rs.getString("pswrd")));
-                rs.close();
-            }
-
-            rs = stmnt.executeQuery("SELECT id, clientid, accntBalance FROM Accounts");
-
-            while (rs.next()){
-                for(Customer c : customers) {
-                    if(rs.getInt("id") == c.getId())
-                        accounts.add(new Account(rs.getInt("accntBalance"), c));
-                    else
-                        throw new Exception("no customer with that id");
+                for(Iterator<Customer> c = customers.iterator(); c.hasNext();){
+                    Customer cust = c.next();
+                    if(rs.getInt("owner_id") == cust.getId())
+                        accounts.add(new Account(rs.getInt("id"), rs.getInt("account_balance"),
+                                cust));
                 }
             }
-        }
-        catch (Exception e){
 
+        }catch(SQLException se){
+            se.printStackTrace();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            try{
+                if(stmnt != null)
+                    conn.close();
+            }
+            catch (SQLException se){
+                se.printStackTrace();
+            }
         }
     }
     public void backUp(){//back up to sql db
         try{
-            Class.forName("com.mysql.jdbc.Driver");
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn = DriverManager.getConnection(DB_URL);
             stmnt = conn.createStatement();
 
-            for(Account a : accounts)
-                stmnt.executeUpdate(a.toSql());
-            for(User u : customers)
-                stmnt.executeUpdate(u.toSql());
-            for(User u : managers)
-                stmnt.executeUpdate(u.toSql());
+            //empty out the db
+            stmnt.executeUpdate("DELETE FROM Accounts");
+            stmnt.executeUpdate("DELETE FROM Customers");
+            stmnt.executeUpdate("DELETE FROM Managers");
+
+            //write
+            for(Iterator<Account> a = accounts.iterator(); a.hasNext();){
+                Account acnt = new Account(a.next());
+                stmnt.executeUpdate("INSERT INTO Accounts (id, owner_id, account_balance) VALUES (" + acnt.getAccountNumber() + "," +
+                        acnt.getOwner().getId() + "," + acnt.getAccountBalance() + ")");
+            }
+
+            //write
+            for(Iterator<Customer> c = customers.iterator(); c.hasNext();){
+                Customer cust = new Customer(c.next());
+                stmnt.executeUpdate("INSERT INTO Customers (id, username, password) VALUES (" + cust.getId() + ", '" +
+                        cust.getUsername() + "' , '" + cust.getPassword() + "' )");
+            }
+
+            //write
+            for(Iterator<Manager> m = managers.iterator(); m.hasNext();){
+                Manager man = new Manager(m.next());
+                stmnt.executeUpdate("INSERT INTO Managers (id, username, passord) VALUES (" + man.getId() + ", '" +
+                        man.getUsername() + "' , '" + man.getPassword() + "' )");
+            }
         }
         catch(SQLException se){
             se.printStackTrace();
@@ -188,4 +232,5 @@ public class Bank {
             }
         }
     }
+
 }

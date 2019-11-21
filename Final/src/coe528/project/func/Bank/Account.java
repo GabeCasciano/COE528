@@ -19,7 +19,18 @@ public class Account {
         this.accountBalance = initialBalance;
         this.owner = owner;
         this.accountNumber = MASTER_ACCOUNT_NUMBER++;
-        toString();
+    }
+
+    public Account(int id, double bal, User owner){
+        this.accountNumber = id;
+        this.accountBalance = bal;
+        this.owner = owner;
+    }
+
+    public Account(Account a){
+        this.owner = a.getOwner();
+        this.accountBalance = a.getAccountBalance();
+        this.accountNumber = a.getAccountNumber();
     }
 
     public int getAccountNumber(){ return accountNumber; }
@@ -49,7 +60,7 @@ public class Account {
 
         System.out.println(primarytoString());
     }
-    public void makePurchase(double amount)throws Exception{
+    public void purchase(double amount)throws Exception{
         double costOfPurchase;
         if(amount >= PLATINUM)
             costOfPurchase = 0;

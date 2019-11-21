@@ -99,9 +99,11 @@ public abstract class User {
      * @throws Exception
      */
     public void setPassword(String password) throws Exception {
-        if(password.hashCode() == getPasswordHash())
-            throw new Exception("Password matches the old password");
-        if(password.trim().length() < 8)
+        if(this.password != null) {
+            if (password.hashCode() == getPasswordHash())
+                throw new Exception("Password matches the old password");
+        }
+        if(password.length() < 7)
             throw new Exception("Password is too short");
 
         this.password = password;
@@ -118,5 +120,15 @@ public abstract class User {
     }
 
     public String toSql(){ return "INSERT INTO Users VALUES (" + this.id + "," + this.username + "," + this.password + "," + ((this.getClass() == Manager.class)?true:false) ; }
+
+    public boolean equals(User user){
+        if(this.password != null) {
+            if (this.username.hashCode() == user.getUsername().hashCode()) {
+                if (getPasswordHash() == user.getPassword().hashCode())
+                    return true;
+            }
+        }
+        return false;
+    }
 
 }

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="adaptive">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/sqljdbc_6.0/enu/samples/adaptive" />
+      <root url="file://$USER_HOME$/sqljdbc_6.0/enu/samples/alwaysencrypted" />
+      <root url="file://$USER_HOME$/sqljdbc_6.0/enu/samples/connections" />
+      <root url="file://$USER_HOME$/sqljdbc_6.0/enu/samples/datatypes" />
+      <root url="file://$USER_HOME$/sqljdbc_6.0/enu/samples/resultsets" />
+      <root url="file://$USER_HOME$/sqljdbc_6.0/enu/samples/sparse" />
+    </SOURCES>
+  </library>
+</component>
