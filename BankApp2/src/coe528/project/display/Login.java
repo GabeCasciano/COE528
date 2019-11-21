@@ -32,12 +32,12 @@ public class Login implements Initializable{
        Login();
     }
 
-    private void loadNext(User user){
+    private void loadNext(User user, boolean isManger){
         Parent root1;
         Stage stage;
-
+        Main.currentAccount = user;
         
-        if(user.getClass() == Main.admin.getClass()){
+        if(isManger){
             try {
                 root1 = FXMLLoader.load(getClass().getResource("manager.fxml"));
                 stage = new Stage();
@@ -55,7 +55,7 @@ public class Login implements Initializable{
         }
         else{
             try {
-                Main.currentAccount = Main.testBank.findAccount((Customer) user);
+                
                 root1 = FXMLLoader.load(getClass().getResource("home.fxml"));
                 stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
@@ -65,7 +65,7 @@ public class Login implements Initializable{
                 stage.show();
 
             }catch (Exception e){
-               e.printStackTrace();
+                System.out.println("f");
             }finally{
                 System.out.println(user.toString());
                 System.out.println(user.getClass());
@@ -79,12 +79,12 @@ public class Login implements Initializable{
         String password = login_password.getText();
 
         if(Main.admin.getUsername().equals(username) && Main.admin.getPassword().equals(password))
-            loadNext(Main.admin);
+            loadNext(Main.admin, true);
         for(Iterator<Customer> c = Main.testBank.getCustomers().iterator(); c.hasNext();){
             Customer cust = c.next();
             if(cust.getUsername().equals(username)){
                 if(cust.getPassword().equals(password)){
-                   loadNext(cust);
+                   loadNext(cust, false);
                 }
             }
             

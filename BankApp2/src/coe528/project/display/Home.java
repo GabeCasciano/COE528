@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 
 import coe528.project.func.Bank.Account;
 import coe528.project.func.Bank.Bank;
+import coe528.project.func.Users.Customer;
+import coe528.project.func.Users.User;
 import java.text.DecimalFormat;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,7 +33,8 @@ public class Home implements Initializable{
     @FXML Button purchase_enter;
 
     Bank bank;
-    Account currentAccount;
+    Customer currentUser;
+    Account acnt;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -39,15 +42,16 @@ public class Home implements Initializable{
     }
 
     private void updateAccount(){
-        accnt_id_number.setText(Integer.toString(currentAccount.getAccountNumber()));
-        accnt_owner.setText(currentAccount.getOwner().getUsername());
-        accnt_balance.setText("$ " + new String(new DecimalFormat("#.00#").format(currentAccount.getAccountBalance())));
+        acnt = bank.findAccount(currentUser);
+        accnt_id_number.setText(Integer.toString(acnt.getAccountNumber()));
+        accnt_owner.setText(acnt.getOwner().getUsername());
+        accnt_balance.setText("$ " + new String(new DecimalFormat("#.00#").format(acnt.getAccountBalance())));
     }
     
     @FXML
     void Home(){
-        bank = new Bank(Main.admin);
-        currentAccount = Main.currentAccount;
+        bank = Main.testBank;
+        acnt = bank.findAccount(currentUser);
         updateAccount();
         
     }
@@ -55,7 +59,7 @@ public class Home implements Initializable{
     @FXML
     private void makeDeposit(ActionEvent event) throws Exception{
         try{
-            bank.makeDeposit(currentAccount, currentAccount.getOwner(), Integer.parseInt(value_to_move.getText()));
+            bank.makeDeposit(acnt, acnt.getOwner(), Integer.parseInt(value_to_move.getText()));
         }catch(Exception e){
             System.out.println(e);
         }finally{
@@ -66,7 +70,7 @@ public class Home implements Initializable{
     @FXML
     private void makeWithdraw(ActionEvent event){
         try{
-            bank.makeWithdraw(currentAccount, currentAccount.getOwner(), Integer.parseInt(value_to_move.getText()));
+            bank.makeWithdraw(acnt, acnt.getOwner(), Integer.parseInt(value_to_move.getText()));
         }catch(Exception e){
             System.out.println(e);
         }finally{
@@ -77,7 +81,7 @@ public class Home implements Initializable{
     @FXML
     private void makePurchase(ActionEvent event){
         try{
-            bank.makePurchase(currentAccount, currentAccount.getOwner(), Integer.parseInt(value_to_move.getText()));
+            bank.makePurchase(acnt, acnt.getOwner(), Integer.parseInt(value_to_move.getText()));
         }catch(Exception e){
             System.out.println(e);
         }finally{

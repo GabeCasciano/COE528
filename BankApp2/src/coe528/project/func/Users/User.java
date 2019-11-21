@@ -122,7 +122,7 @@ public abstract class User {
     public String toSql(){ return "INSERT INTO Users VALUES (" + this.id + "," + this.username + "," + this.password + "," + ((this.getClass() == Manager.class)?true:false) ; }
 
     public boolean equals(User user){
-        if(this.password != null) {
+        if(this.password != null || this.username != null) {
             if (this.username.hashCode() == user.getUsername().hashCode()) {
                 if (getPasswordHash() == user.getPassword().hashCode())
                     return true;

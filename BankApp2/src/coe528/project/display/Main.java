@@ -4,6 +4,7 @@ import coe528.project.func.Bank.Account;
 import coe528.project.func.Bank.Bank;
 import coe528.project.func.Users.Customer;
 import coe528.project.func.Users.Manager;
+import coe528.project.func.Users.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,7 +31,7 @@ public class Main extends Application {
     Statement stmnt = null;
     static final String DB_URL = "jdbc:sqlite:/home/student1/gcascian/COE528/BankApp2/src/bank.db";
 
-    static Account currentAccount;
+    static User currentAccount;
 
     Scene login_scene;
 
@@ -44,11 +45,6 @@ public class Main extends Application {
             admin = new Manager(rs.getString("username"), rs.getString("passord"));
 
         }catch (Exception e){
-            try{ 
-                admin = new Manager("admin", "admin1234");
-            }
-            catch(Exception f){ f.printStackTrace();}
-            e.printStackTrace();
         }
         finally{           
             try{
@@ -69,6 +65,7 @@ public class Main extends Application {
     public void initBank(boolean bo) throws Exception{
         testBank = new Bank(admin);
         custom = new Customer("gabe1234", "password1234");
+        testBank.addAccount(custom, 0, admin);
         if(bo)
            testBank.loadBackUp();
         else
@@ -79,6 +76,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         loadAdmin(true);
         initBank(false);
+        System.out.println(testBank.findAccount(custom));
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         login_scene = new Scene(root, 220, 220);
         primaryStage.setTitle("Bank App - Login");

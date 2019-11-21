@@ -155,6 +155,7 @@ public class Bank {
             if(acnt.getOwner().equals(customer))
                 return acnt;
         }
+        System.out.println("No account found");
         return null;
     }
 

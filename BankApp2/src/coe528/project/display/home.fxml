@@ -44,7 +44,7 @@
                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
                                  <TextField promptText="Amount" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="65.0" fx:id="purchase_amount"/>
-                                 <Button mnemonicParsing="false" onAction="@makePurchase" text="Purchase" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" fx:id="purchase_enter" />
+                                 <Button mnemonicParsing="false" onAction="#makePurchase" text="Purchase" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" fx:id="purchase_enter" />
                                  <Label prefWidth="170.0" text="Please enter the amount required for the purchase:" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
                               </children></AnchorPane>
                         </content>
