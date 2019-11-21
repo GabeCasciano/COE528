@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.util.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coe528.project.display.Login">
+    <children>
+      <TitledPane fx:id="login_title_pane" animated="false" collapsible="false" prefHeight="220.0" prefWidth="600.0" text="Bank App - Login" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField id="login_username" promptText="Username" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0" fx:id="login_username"/>
+                  <PasswordField id="login_password" promptText="Password" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" fx:id="login_password"/>
+                  <Button id="login_enter" mnemonicParsing="false" text="Enter" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="140.0" onAction="#test"/>
+                  <Label prefWidth="150.0" text="Please enter your username and password:" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="5.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+   </children>
+</AnchorPane>
