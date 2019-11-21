@@ -2,40 +2,80 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import java.util.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coe528.project.display.Manager">
-    <children>
-        <TitledPane fx:id="manager_title_pane" animated="false" collapsible="false" prefHeight="220.0" prefWidth="600.0" text="Bank App - Manager Home" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <children>
-                        <TextField id="login_username" promptText="Username" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0" fx:id="login_username"/>
-                        <PasswordField id="login_password" promptText="Password" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" fx:id="login_password"/>
-                        <Button id="login_enter" mnemonicParsing="false" text="Enter" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="140.0" onAction="#test"/>
-                        <Label prefWidth="150.0" text="Please enter your username and password:" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="5.0" />
-                    </children>
-                </AnchorPane>
-            </content>
-        </TitledPane>
-    </children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coe528.project.display.manager">
+<TitledPane fx:id="bank_app_main" animated="false" collapsible="false" text="Bank App" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <SplitPane fx:id="main_pane" dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Label layoutX="4.0" layoutY="4.0" text="Account Summary">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="4.0" layoutY="35.0" text="Number:" />
+                  <Label layoutX="4.0" layoutY="75.0" text="Owner:" />
+                  <Label layoutX="4.0" layoutY="115.0" text="Balance:" />
+                  <Label id="accnt_id_number" fx:id="accnt_number" layoutX="40.0" layoutY="55.0" text="0" />
+                  <Label id="accnt_owner" fx:id="accnt_owner" layoutX="40.0" layoutY="95.0" text="owner" />
+                  <Label id="accnt_balance" fx:id="accnt_balance" layoutX="40.0" layoutY="135.0" text="\$ 0.0" />
+                  <Button fx:id="logout_btn" onAction="#logout" layoutX="57.0" layoutY="360.0" mnemonicParsing="false" text="Log Out" />
+                     <Button layoutY="360.0" mnemonicParsing="false" text="Help" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="59.0" AnchorPane.rightAnchor="50.0" />
+               </children>
+            </AnchorPane>
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab id="add_account" fx:id="add_account_tab" text="Add/Remove Account">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                 <Button id="add_account_button" fx:id="add_accnt_btn" onAction="#addAccount" layoutX="15.0" layoutY="158.0" mnemonicParsing="false" text="Add Account" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="158.0" />
+                                 <TextField id="customer_username" fx:id ="customer_user" layoutX="15.0" layoutY="83.0" promptText="Username" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="83.0" />
+                                 <Label prefHeight="64.0" prefWidth="387.0" text="Please enter the username, or ID of the Customer you want to create an Account for:" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
+                                 <Button id="remove_account_button" fx:id="remove_accnt_btn" onAction="#removeAccount" layoutX="14.0" layoutY="195.0" mnemonicParsing="false" text="Remove Account" />
+                                 <TextField id="customer_id" fx:id="customer_user_id" layoutX="15.0" layoutY="117.0" promptText="Id" />
+                                 <TextField id="init_value" fx:id="customer_init_val" layoutX="15.0" layoutY="317.0" promptText="initialValue" />
+                              </children></AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab id="add_customer" fx:id="add_customer_tab" text="Add/Remove Customer">
+                      <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                              <Button id="add_customer_button" fx:id="add_customer_btn" onAction="#addCustomer" layoutX="14.0" layoutY="171.0" mnemonicParsing="false" text="Add Customer" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="171.0" />
+                              <TextField id="customer_username" fx:id="customer_user_2" layoutX="15.0" layoutY="100.0" promptText="Username" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="100.0" />
+                              <Label prefHeight="80.0" prefWidth="360.0" text="Please enter the Username and Password for the Customer you are creating. Or username/id if you are removing Customers" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
+                              <Button id="remove_customer_button" fx:id="remove_customer_btn" onAction="#removeCustomer" layoutX="14.0" layoutY="211.0" mnemonicParsing="false" text="Remove Customer" />
+                              <TextField id="customer_id" fx:id="customer_password" layoutX="199.0" layoutY="100.0" promptText="Password" />
+                              <TextField id="customer_id" fx:id="customer_user_id_2" layoutX="15.0" layoutY="138.0" promptText="Id" />
+                          </children></AnchorPane></content>
+                     </Tab>
+                  <Tab id="view_customers" fx:id="view_customers" text="View Customers">
+                      <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                 <ListView id="customer_list" fx:id="customer_list" prefWidth="237.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="0.0" />
+                                  <Label layoutX="200.0" layoutY="4.0" text="Account Summary">
+                                      <font>
+                                          <Font size="18.0" />
+                                      </font>
+                                  </Label>
+                                  <Label layoutX="200.0" layoutY="35.0" text="Number:" />
+                                  <Label layoutX="200.0" layoutY="75.0" text="Owner:" />
+                                  <Label layoutX="200.0" layoutY="115.0" text="Balance:" />
+                                  <Label id="accnt_id_number" fx:id="customer_accnt_number" layoutX="250.0" layoutY="55.0" text="0" />
+                                  <Label id="accnt_owner" fx:id="customer_accnt_owner" layoutX="250.0" layoutY="95.0" text="owner" />
+                                  <Label id="accnt_balance" fx:id="customer_accnt_bal" layoutX="250.0" layoutY="135.0" text="\$ 0.0" />
+                              </children></AnchorPane>
+                      </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+        </items>
+      </SplitPane>
+   </content>
+</TitledPane>
 </AnchorPane>
-
-
-
-<Tab id="add_remove_customer" fx:id="add_remove_customer" text="Add or Remove Users">
-    <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <children>
-                <ListView id="customer_list" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="0.0" />
-                <Button mnemonicParsing="false" prefWidth="200.0" text="Remove User from List" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                <Button mnemonicParsing="false" prefWidth="200.0" text="Add User to List" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="10.0" />
-                <Label prefWidth="190.0" text="Please enter the information for a new User or select a User from the list." wrapText="true" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
-                <TextField prefWidth="200.0" promptText="Username" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0" />
-                <Label prefWidth="200.0" text="Username:" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
-                <Label prefWidth="200.0" text="Password:" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="120.0" />
-                <TextField prefWidth="200.0" promptText="Password" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="140.0" />
-                <CheckBox mnemonicParsing="false" prefWidth="200.0" text="Manager" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="180.0" />
-            </children></AnchorPane>
-    </content>
-</Tab>

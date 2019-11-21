@@ -18,7 +18,7 @@ import java.util.List;
 public class Bank {
 
 
-    static final String DB_URL = "jdbc:sqlite:/home/gabriel/Documents/COE528/Final/bank.db";
+    static final String DB_URL = "jdbc:sqlite:/home/student1/gcascian/COE528/BankApp2/src/bank.db";
     // More database bs
     private static Connection conn = null;
     private static Statement stmnt = null;
@@ -137,13 +137,22 @@ public class Bank {
                 acnt.purchase(amount);
         }
     }
-
+    
+    public Customer findCustomer(String username){
+        for(Iterator<Customer> c = customers.iterator(); c.hasNext();){
+            Customer cust = c.next();
+            
+            if(cust.getUsername().equals(username))
+                return cust;
+        }
+        return null;
+    }
     //utils
     public Account findAccount(Customer customer){
         for(Iterator<Account> a = accounts.iterator(); a.hasNext();){
             Account acnt = a.next();
 
-            if(acnt.getOwner.equals(customer))
+            if(acnt.getOwner().equals(customer))
                 return acnt;
         }
         return null;

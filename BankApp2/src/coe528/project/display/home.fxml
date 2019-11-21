@@ -22,7 +22,7 @@
                   <Label id="accnt_id_number" fx:id="accnt_number" layoutX="40.0" layoutY="55.0" text="0" />
                   <Label id="accnt_owner" fx:id="accnt_owner" layoutX="40.0" layoutY="95.0" text="owner" />
                   <Label id="accnt_balance" fx:id="accnt_balance" layoutX="40.0" layoutY="135.0" text="\$ 0.0" />
-                  <Button fx:id="logout_btn" layoutX="57.0" layoutY="360.0" mnemonicParsing="false" text="Log Out" />
+                  <Button fx:id="logout_btn" onAction="#logout" layoutX="57.0" layoutY="360.0" mnemonicParsing="false" text="Log Out" />
                      <Button layoutY="360.0" mnemonicParsing="false" text="Help" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="59.0" AnchorPane.rightAnchor="50.0" />
                </children>
             </AnchorPane>
@@ -32,8 +32,8 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
-                                 <Button id="deposit_button" mnemonicParsing="false" text="Deposit" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
-                                 <Button id="withdraw_button" layoutX="30.0" layoutY="110.0" mnemonicParsing="false" text="Withdraw" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="100.0" />
+                                 <Button id="deposit_button" onAction="#makeDeposit" mnemonicParsing="false" text="Deposit" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
+                                 <Button id="withdraw_button" onAction="#makeWithdraw" layoutX="30.0" layoutY="110.0" mnemonicParsing="false" text="Withdraw" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="100.0" />
                                  <TextField id="value_to_move" promptText="Amount" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="65.0" />
                                  <Label prefWidth="160.0" text="Please enter the amount of money you would to move:" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
                               </children></AnchorPane>
@@ -44,7 +44,7 @@
                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
                                  <TextField promptText="Amount" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="65.0" fx:id="purchase_amount"/>
-                                 <Button mnemonicParsing="false" text="Purchase" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" fx:id="purchase_enter" />
+                                 <Button mnemonicParsing="false" onAction="@makePurchase" text="Purchase" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" fx:id="purchase_enter" />
                                  <Label prefWidth="170.0" text="Please enter the amount required for the purchase:" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
                               </children></AnchorPane>
                         </content>

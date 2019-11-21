@@ -9,6 +9,11 @@ import java.util.ResourceBundle;
 import java.util.*;
 
 import coe528.project.func.Users.*;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Login implements Initializable{
     
@@ -16,23 +21,25 @@ public class Login implements Initializable{
     @FXML TextField login_username;
     @FXML PasswordField login_password;
     @FXML Button login_enter;
-
-    @FXMl
+    
+    @FXML
     void Login(){
+        System.out.println("init");
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       
+       Login();
     }
 
     private void loadNext(User user){
         Parent root1;
         Stage stage;
 
-        if(user.getClass() == Manager.class){
+        
+        if(user.getClass() == Main.admin.getClass()){
             try {
-                root1 = new FXMLLoader(getClass().getResource("manager.fxml"));
+                root1 = FXMLLoader.load(getClass().getResource("manager.fxml"));
                 stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.initStyle(StageStyle.UNDECORATED);
@@ -41,15 +48,15 @@ public class Login implements Initializable{
                 stage.show();
 
             }catch (Exception e){
-
+                e.printStackTrace();
             }finally{
-                System.out.println(cust.toString());
+                System.out.println(user.toString());
             }
         }
-        else if(user.getClass() == Customer.class){
+        else{
             try {
-                Main.currentAccount = bank.findAccount(user);
-                root1 = new FXMLLoader(getClass().getResource("home.fxml"));
+                Main.currentAccount = Main.testBank.findAccount((Customer) user);
+                root1 = FXMLLoader.load(getClass().getResource("home.fxml"));
                 stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.initStyle(StageStyle.UNDECORATED);
@@ -58,13 +65,11 @@ public class Login implements Initializable{
                 stage.show();
 
             }catch (Exception e){
-
+               e.printStackTrace();
             }finally{
-                System.out.println(cust.toString());
+                System.out.println(user.toString());
+                System.out.println(user.getClass());
             }
-        }
-        else{
-            System.out.println("Rauh Rouh Raggy");
         }
     }
 

@@ -1,5 +1,6 @@
 package coe528.project.display;
 
+import coe528.project.func.Bank.Account;
 import coe528.project.func.Bank.Bank;
 import coe528.project.func.Users.Customer;
 import coe528.project.func.Users.Manager;
@@ -24,9 +25,10 @@ public class Main extends Application {
     //Bank Variables
     static Bank testBank;
     static Manager admin;
+    static Customer custom;
     Connection conn = null;
     Statement stmnt = null;
-    static final String DB_URL = "jdbc:sqlite:bank.db";
+    static final String DB_URL = "jdbc:sqlite:/home/student1/gcascian/COE528/BankApp2/src/bank.db";
 
     static Account currentAccount;
 
@@ -42,19 +44,41 @@ public class Main extends Application {
             admin = new Manager(rs.getString("username"), rs.getString("passord"));
 
         }catch (Exception e){
+            try{ 
+                admin = new Manager("admin", "admin1234");
+            }
+            catch(Exception f){ f.printStackTrace();}
             e.printStackTrace();
+        }
+        finally{           
+            try{
+                admin = new Manager("admin", "admin1234");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    public void loadAdmin(boolean bo){
+        try{
+            admin = new Manager("admin", "admin1234");
+        }catch(Exception e){
+            
         }
     }
 
-    public void initBank(){
+    public void initBank(boolean bo) throws Exception{
         testBank = new Bank(admin);
-        testBank.loadBackUp();
+        custom = new Customer("gabe1234", "password1234");
+        if(bo)
+           testBank.loadBackUp();
+        else
+            testBank.addCustomer(custom, admin);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        loadAdmin();
-        initBank();
+        loadAdmin(true);
+        initBank(false);
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         login_scene = new Scene(root, 220, 220);
         primaryStage.setTitle("Bank App - Login");
