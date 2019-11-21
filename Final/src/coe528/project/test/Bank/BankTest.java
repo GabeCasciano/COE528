@@ -20,6 +20,22 @@ class BankTest {
     boolean TEST_FLAG = false;
 
     @Test
+    void runAll(){
+        addCustomer();
+        tearDown();
+        addMultipleCustomer();
+        tearDown();
+        removeCustomer();
+        tearDown();
+        addAccount();
+        tearDown();
+        removeAccount();
+        tearDown();
+        removeMultipleCustomers();
+        tearDown();
+    }
+
+    @Test
     void setup() {
         try{
             manager = new Manager("admin", "admin123");

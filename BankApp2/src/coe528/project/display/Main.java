@@ -5,14 +5,7 @@ import coe528.project.func.Bank.Bank;
 import coe528.project.func.Users.Customer;
 import coe528.project.func.Users.Manager;
 import coe528.project.func.Users.User;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
