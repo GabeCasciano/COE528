@@ -28,10 +28,7 @@ public class Main extends Application {
     Statement stmnt = null;
     static final String DB_URL = "jdbc:sqlite:bank.db";
 
-    Button login_enter;
-    Handler login_handler;
-    TextField login_username;
-    PasswordField login_password;
+    static Account currentAccount;
 
     Scene login_scene;
 
@@ -54,40 +51,13 @@ public class Main extends Application {
         testBank.loadBackUp();
     }
 
-
-    public void login(){
-        String username = login_username.getText();
-        String password = login_password.getText();
-
-        for(Iterator<Customer> c = testBank.getCustomers().iterator(); c.hasNext();){
-            Customer customer = c.next();
-            if(customer.getUsername().equals(username)){
-                if(customer.getPassword().equals(password)){
-                    //enter as customer
-                }
-            }
-        }
-        for(Iterator<Manager> m = testBank.getManagers().iterator(); m.hasNext();){
-            Manager manager = m.next();
-            if(manager.getUsername().equals(username)){
-                if(manager.getPassword().equals(password)){
-                    //enter as manager
-                }
-            }
-        }
-    }
-
-    //public Scene setupLogin(){  }
-    //public Scene setupCustomerHome(){ }
-    //public Scene setupManagerHome(){ }
-
-
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //loadAdmin();
-        //initBank();
+        loadAdmin();
+        initBank();
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         login_scene = new Scene(root, 220, 220);
+        primaryStage.setTitle("Bank App - Login");
         primaryStage.setScene(login_scene);
         primaryStage.show();
 

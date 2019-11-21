@@ -4,8 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coe528.project.display.Home">
-<TitledPane fx:id="bank_app_main" animated="false" collapsible="false" text="Bank App" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coe528.project.display.Home">
+<TitledPane fx:id="bank_app_main" animated="false" collapsible="false" text="Bank App" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <SplitPane fx:id="main_pane" dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
         <items>
@@ -33,7 +33,7 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
                                  <Button id="deposit_button" mnemonicParsing="false" text="Deposit" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
-                                 <Button id="deposit_button" layoutX="30.0" layoutY="110.0" mnemonicParsing="false" text="Withdraw" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="100.0" />
+                                 <Button id="withdraw_button" layoutX="30.0" layoutY="110.0" mnemonicParsing="false" text="Withdraw" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="100.0" />
                                  <TextField id="value_to_move" promptText="Amount" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="65.0" />
                                  <Label prefWidth="160.0" text="Please enter the amount of money you would to move:" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
                               </children></AnchorPane>
@@ -43,28 +43,13 @@
                         <content>
                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
-                                 <TextField promptText="Amount" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="65.0" />
-                                 <Button mnemonicParsing="false" text="Purchase" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
+                                 <TextField promptText="Amount" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="65.0" fx:id="purchase_amount"/>
+                                 <Button mnemonicParsing="false" text="Purchase" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" fx:id="purchase_enter" />
                                  <Label prefWidth="170.0" text="Please enter the amount required for the purchase:" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
                               </children></AnchorPane>
                         </content>
                      </Tab>
-                  <Tab id="add_remove_customer" fx:id="add_remove_customer" text="Add or Remove Users">
-                      <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                              <children>
-                                 <ListView id="customer_list" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="0.0" />
-                                 <Button mnemonicParsing="false" prefWidth="200.0" text="Remove User from List" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                                 <Button mnemonicParsing="false" prefWidth="200.0" text="Add User to List" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="10.0" />
-                                 <Label prefWidth="190.0" text="Please enter the information for a new User or select a User from the list." wrapText="true" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
-                                 <TextField prefWidth="200.0" promptText="Username" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0" />
-                                 <Label prefWidth="200.0" text="Username:" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
-                                 <Label prefWidth="200.0" text="Password:" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="120.0" />
-                                 <TextField prefWidth="200.0" promptText="Password" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="140.0" />
-                                 <CheckBox mnemonicParsing="false" prefWidth="200.0" text="Manager" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="180.0" />
-                              </children></AnchorPane>
-                      </content>
-                  </Tab>
+
               </tabs>
             </TabPane>
         </items>

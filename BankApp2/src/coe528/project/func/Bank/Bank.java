@@ -30,7 +30,6 @@ public class Bank {
     public Bank(Manager newManager){
         managers.add(newManager);
     }
-
     //get & set
     public List<Account> getAccounts(){ return accounts; }
     public List<Customer> getCustomers(){ return new LinkedList<>(customers); }
@@ -139,6 +138,16 @@ public class Bank {
         }
     }
 
+    //utils
+    public Account findAccount(Customer customer){
+        for(Iterator<Account> a = accounts.iterator(); a.hasNext();){
+            Account acnt = a.next();
+
+            if(acnt.getOwner.equals(customer))
+                return acnt;
+        }
+        return null;
+    }
 
     //database
     public void loadBackUp(){
