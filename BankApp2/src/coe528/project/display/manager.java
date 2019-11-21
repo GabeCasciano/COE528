@@ -75,9 +75,9 @@ public class manager implements Initializable {
             customer_user_id_2.clear();
             updateListView();
             System.out.println("final2");
-            System.out.println(bank.getCustomers().get(1).toString());
         }
     }
+    
     @FXML
     public void removeCustomer(ActionEvent event){
         try{
@@ -92,6 +92,7 @@ public class manager implements Initializable {
         customer_user_id_2.clear();
         updateListView();
     }
+    
     @FXML
     public void addAccount(ActionEvent event){
         try{
@@ -108,6 +109,7 @@ public class manager implements Initializable {
         customer_user_id_2.clear();
         updateListView();
     }
+    
     @FXML
     public void removeAccount(ActionEvent event){
         try{
@@ -124,7 +126,6 @@ public class manager implements Initializable {
         updateListView();
     }
     
-    
     @FXML
     void manager(){
         bank = new Bank(Main.admin);
@@ -132,10 +133,12 @@ public class manager implements Initializable {
         System.out.println("init man");
         
     }
+    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         manager();
     }
+    
     @FXML
     private void logout(){
 
