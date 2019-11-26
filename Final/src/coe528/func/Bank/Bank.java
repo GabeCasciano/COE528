@@ -18,7 +18,7 @@ import java.util.List;
 public class Bank {
 
 
-    static final String DB_URL = "jdbc:sqlite:/home/student1/gcascian/COE528/BankApp2/src/bank.db";
+    static final String DB_URL = "jdbc:sqlite:bank.db";
     // More database bs
     private static Connection conn = null;
     private static Statement stmnt = null;
@@ -206,30 +206,42 @@ public class Bank {
     }
 
     //database
-    public void loadBackUp(){
+    public void loadBackUp(Manager admin){
 
         try{
             conn = DriverManager.getConnection(DB_URL);
             stmnt = conn.createStatement();
 
+            int id =0;
+            String username = "";
+            String password = "";
+
             //Read Managers
             ResultSet rs = stmnt.executeQuery("SELECT * FROM Managers");
-            while(rs.next())
-                managers.add(new Manager(rs.getInt("id"), rs.getString("username"),
-                        rs.getString("passord")));
+            while(rs.next()) {
+                id = rs.getInt("id");
+                username = rs.getString("username");
+                password = rs.getString("passord");
 
+                managers.add(new Manager(id, username, password));
+            }
             rs = stmnt.executeQuery("SELECT * FROM Customers");
-            while (rs.next())
-                customers.add(new Customer(rs.getInt("id"), rs.getString("username"),
-                        rs.getString("password")));
+            while (rs.next()) {
+                id = rs.getInt("id");
+                username = rs.getString("username");
+                password = rs.getString("password");
+
+                customers.add(new Customer(id, username, password));
+            }
 
             rs = stmnt.executeQuery("SELECT * FROM Accounts");
             while(rs.next()){
+                username = rs.getString("owner_username");
+                int balance = rs.getInt("account_balance");
                 for(Iterator<Customer> c = customers.iterator(); c.hasNext();){
                     Customer cust = c.next();
-                    if(rs.getInt("owner_id") == cust.getId())
-                        accounts.add(new Account(rs.getInt("id"), rs.getInt("account_balance"),
-                                cust));
+                    if(this.findCustomer(username) != null)
+                        accounts.add(new Account(balance, this.findCustomer(username)));
                 }
             }
 
@@ -263,22 +275,22 @@ public class Bank {
             //write
             for(Iterator<Account> a = accounts.iterator(); a.hasNext();){
                 Account acnt = new Account(a.next());
-                stmnt.executeUpdate("INSERT INTO Accounts (id, owner_id, account_balance) VALUES (" + acnt.getAccountNumber() + "," +
-                        acnt.getOwner().getId() + "," + acnt.getAccountBalance() + ")");
+                stmnt.executeUpdate("INSERT INTO Accounts (owner_username, account_balance) VALUES ('" + acnt.getOwner().getUsername() + "'," + acnt.getAccountBalance() + ")");
             }
 
             //write
             for(Iterator<Customer> c = customers.iterator(); c.hasNext();){
                 Customer cust = new Customer(c.next());
-                stmnt.executeUpdate("INSERT INTO Customers (id, username, password) VALUES (" + cust.getId() + ", '" +
-                        cust.getUsername() + "' , '" + cust.getPassword() + "' )");
+                stmnt.executeUpdate("INSERT INTO Customers (username, password) VALUES ( '"+ cust.getUsername() + "' , '" + cust.getPassword() + "' )");
             }
 
             //write
             for(Iterator<Manager> m = managers.iterator(); m.hasNext();){
                 Manager man = new Manager(m.next());
-                stmnt.executeUpdate("INSERT INTO Managers (id, username, passord) VALUES (" + man.getId() + ", '" +
-                        man.getUsername() + "' , '" + man.getPassword() + "' )");
+                if(!man.getUsername().equals("admin")) {
+                    stmnt.executeUpdate("INSERT INTO Managers (username, passord) VALUES ( '" +
+                            man.getUsername() + "' , '" + man.getPassword() + "' )");
+                }
             }
         }
         catch(SQLException se){

@@ -27,35 +27,25 @@ public class Main extends Application {
 
     static User currentUser;
 
-    public void loadAdmin(boolean bo){
-        try{
-            admin = new Manager("admin", "admin1234");
-            admin2 = new Manager("adnin2", "admin2121");
-            System.out.println("Admins Initialized");
-        }catch(Exception e){
-            
-        }
-
-    }
-
-    public void initBank(boolean bo) throws Exception{
+    public void initBank(boolean db) throws Exception{
         testBank = new Bank(admin);
-        custom = new Customer("gabe1234", "password1234");
 
-        if(bo)
-           testBank.loadBackUp();
-        else
+        if(db)
+           testBank.loadBackUp(admin);
+        else {
             testBank.addCustomer(custom, admin);
-
-        testBank.addAccount(custom, 100, admin);
+            testBank.addAccount(custom, 100, admin);
+        }
         System.out.println("Bank Initialized");
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        loadAdmin(true);
-        initBank(false);
+        admin = new Manager("admin", "admin1234");
+        System.out.println("Admins Initialized");
+
+        initBank(true);
 
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
 
@@ -65,6 +55,11 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    @Override
+    public void stop(){
+        testBank.backUp();
+        System.out.println("Bank Backed up\nExitting");
+    }
 
     public static void main(String[] args) {
         launch(args);

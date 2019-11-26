@@ -165,7 +165,7 @@ public class manager implements Initializable {
     @FXML
     void manager() {
         bank = new Bank(Main.admin);
-        updateListView();cd
+        updateListView();
         managerSummary();
     }
 

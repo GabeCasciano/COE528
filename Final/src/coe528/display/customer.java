@@ -54,7 +54,6 @@ public class customer implements Initializable{
             helpWindow.setScene(new Scene(root, 325, 250));
             helpWindow.show();
 
-
         }catch (Exception e){
             System.out.println(e.toString());
         }
