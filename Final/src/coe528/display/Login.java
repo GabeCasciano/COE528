@@ -24,12 +24,14 @@ public class Login implements Initializable{
     @FXML TextField login_username;
     @FXML PasswordField login_password;
 
+    public static Stage nextStage;
+
     @FXML
     void Login(){
         System.out.println("Login ....");
     }
 
-    public static Stage nextStage;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -240,8 +240,8 @@ public class Bank {
                 int balance = rs.getInt("account_balance");
                 for(Iterator<Customer> c = customers.iterator(); c.hasNext();){
                     Customer cust = c.next();
-                    if(this.findCustomer(username) != null)
-                        accounts.add(new Account(balance, this.findCustomer(username)));
+
+                    accounts.add(new Account(balance, this.findCustomer(username)));
                 }
             }
 

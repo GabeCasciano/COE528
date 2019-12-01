@@ -48,8 +48,7 @@ public abstract class User {
     public User(int id, String username, String password) throws Exception{
         this.username = username;
         this.id = id;
-        if(id > USER_ID)
-            USER_ID = id;
+
         this.setPassword(password);
 
     }

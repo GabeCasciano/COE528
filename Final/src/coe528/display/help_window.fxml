@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="80.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coe528.display.HelpWindow">
+   <children>
+      <Button layoutX="123.0" layoutY="146.0" mnemonicParsing="false" onAction="#close" text="Close" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="123.0" AnchorPane.rightAnchor="123.0" AnchorPane.topAnchor="80.0" />
+      <Label fx:id="label1" alignment="TOP_LEFT" layoutX="14.0" layoutY="21.0" prefHeight="47.0" prefWidth="280.0" text="Could not make transaction! INSUFFICIENT FUNDS" textFill="RED" underline="true" wrapText="true" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0" />
+   </children>
+</AnchorPane>

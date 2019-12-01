@@ -55,6 +55,12 @@ public class manager implements Initializable {
     @FXML
     ListView customer_list;
 
+    //remove manager
+    @FXML
+    TextField add_manager;
+    @FXML
+    TextField add_man_password;
+
     @FXML
     Button logout_btn;
     Bank bank;
@@ -143,6 +149,32 @@ public class manager implements Initializable {
             System.out.println("Customer Removed: " + remove_user.getText());
         }
     }
+
+    @FXML
+    private void addManager(){
+        try {
+
+            String username = add_manager.getText();
+            String password = add_man_password.getText();
+            Manager man = new Manager(username, password);
+
+            bank.addManager(man, (Manager)Main.currentUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            add_manager.clear();
+            add_man_password.clear();
+
+            System.out.println("Manager Added: " + bank.getManagers().get(Math.abs(bank.getManagers().size() - 1)).toString());
+        }
+
+    }
+    @FXML
+    private void removeManager(){
+
+    }
+
 
     @FXML
     private void helpWindow(){

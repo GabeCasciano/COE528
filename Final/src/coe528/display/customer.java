@@ -36,9 +36,29 @@ public class customer implements Initializable{
     Customer currentUser;
     Account acnt;
 
+    public static Stage window;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Home();
+    }
+
+    private void alertWindow(boolean alert){
+        Parent root1;
+
+        try {
+            window = new Stage();
+            window.initModality(Modality.WINDOW_MODAL);
+            window.initStyle(StageStyle.DECORATED);
+
+            root1 = FXMLLoader.load(getClass().getResource("help_window.fxml"));
+
+            window.setTitle("Alert");
+            window.setScene(new Scene(root1));
+            window.show();
+        }catch(Exception f){
+            f.printStackTrace();
+        }
     }
 
     @FXML
@@ -99,7 +119,7 @@ public class customer implements Initializable{
         try{
             bank.makeWithdraw(acnt, currentUser, Integer.parseInt(value_to_move.getText()));
         }catch(Exception e){
-            System.out.println(e);
+            alertWindow(false);
         }finally{
             updateAccount();
             value_to_move.clear();
@@ -111,7 +131,7 @@ public class customer implements Initializable{
         try{
             bank.makePurchase(acnt, currentUser, Integer.parseInt(purchase_amount.getText()));
         }catch(Exception e){
-            System.out.println(e);
+           alertWindow(true);
         }finally{
             updateAccount();
             purchase_amount.clear();

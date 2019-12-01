@@ -32,7 +32,7 @@
                           <children>
                               <Button id="add_customer_button" fx:id="add_customer_btn" layoutX="14.0" layoutY="171.0" mnemonicParsing="false" onAction="#addCustomer" text="Add Customer" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="171.0" />
                               <TextField id="customer_username" fx:id="add_user" layoutX="15.0" layoutY="100.0" promptText="Username" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="100.0" />
-                              <Label prefHeight="80.0" prefWidth="360.0" text="Please enter the Username and Password for the Customer you are creating. Or username/id if you are removing Customers" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
+                              <Label prefHeight="80.0" prefWidth="360.0" text="Please enter the Username and Password for the Customer you are creating." wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
                               <TextField id="customer_id" fx:id="add_password" layoutX="199.0" layoutY="100.0" promptText="Password" />
                                  <TextField id="customer_id" fx:id="add_init_val" layoutX="14.0" layoutY="136.0" promptText="Initial value" />
                           </children></AnchorPane></content>
@@ -65,6 +65,19 @@
                               </children></AnchorPane>
                       </content>
                   </Tab>
+                    <Tab id="mangers" fx:id="add_mamanger_tab" text="Mangers">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Button id="add_customer_button" fx:id="add_manager_button" layoutX="14.0" layoutY="171.0" mnemonicParsing="false" onAction="#addManager" text="Add Manager" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="171.0" />
+                                <TextField id="customer_username" fx:id="add_manager" layoutX="15.0" layoutY="100.0" promptText="Username" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="100.0" />
+                                <Label prefHeight="80.0" prefWidth="360.0" text="Please enter the Username and Password for the Manager you are creating or removing." wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
+                                <TextField id="customer_id" fx:id="add_man_password" layoutX="199.0" layoutY="100.0" promptText="Password" />
+                                <Button id="remove_manager" fx:id="remove_manager_button" layoutX="133.0" layoutY="171.0" mnemonicParsing="false" onAction="#removeManager" text="Remove Manager" AnchorPane.leftAnchor="133.0" AnchorPane.topAnchor="171.0" />
+
+                            </children></AnchorPane>
+                    </content>
+                    </Tab>
               </tabs>
             </TabPane>
         </items>

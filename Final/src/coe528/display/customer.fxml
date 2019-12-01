@@ -56,4 +56,5 @@
       </SplitPane>
    </content>
 </TitledPane>
+   <Label layoutX="-181.0" layoutY="159.0" prefHeight="81.0" prefWidth="81.0" text="Could not make purchase, not enough funds" textFill="#f20000" underline="true" wrapText="true" AnchorPane.bottomAnchor="187.0" AnchorPane.leftAnchor="-181.0" AnchorPane.rightAnchor="702.0" AnchorPane.topAnchor="159.0" />
 </AnchorPane>
