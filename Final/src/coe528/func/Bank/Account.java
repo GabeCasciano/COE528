@@ -1,7 +1,7 @@
 /** Bank App - COE528
  @author Gabriel Casciano, 500744076
- @since Nov,13, 2019
- @version 0.1
+ @since Nov, 25, 2019
+ @version 1.0
  */
 package coe528.func.Bank;
 
@@ -11,7 +11,7 @@ import coe528.func.Users.User;
 
 
 /**
- * Account Class
+ * Account class
  */
 public class Account extends Customer {
     private static int UPPER_LIMIT = 10000;

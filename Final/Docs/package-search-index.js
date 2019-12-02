@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"coe528.project.display"},{"l":"coe528.project.func.Bank"},{"l":"coe528.project.func.Users"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"coe528.func.Bank"},{"l":"coe528.func.Users"}]

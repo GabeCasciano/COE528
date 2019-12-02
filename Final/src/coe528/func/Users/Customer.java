@@ -1,7 +1,7 @@
 /** Bank App - COE528
  @author Gabriel Casciano, 500744076
- @since Nov,13, 2019
- @version 0.1
+ @since Nov, 25, 2019
+ @version 1.0
  */
 package coe528.func.Users;
 

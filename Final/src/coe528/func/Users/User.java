@@ -1,7 +1,7 @@
 /** Bank App - COE528
  @author Gabriel Casciano, 500744076
- @since Nov,13, 2019
- @version 0.1
+ @since Nov, 25, 2019
+ @version 1.0
  */
 package coe528.func.Users;
 
@@ -40,10 +40,10 @@ public abstract class User {
 
     /** Database load constructor
      *
-     * @param id
-     * @param username
-     * @param password
-     * @throws Exception
+     * @param id the id to be associated with the user
+     * @param username the username to be associated with the user
+     * @param password the password to be associated with the user
+     * @throws Exception if the password format is not correct
      */
     public User(int id, String username, String password) throws Exception{
         this.username = username;
@@ -95,7 +95,7 @@ public abstract class User {
      * less than 8 characters.
      *
      * @param password String, password to be set
-     * @throws Exception
+     * @throws Exception if the password matches the old password, if the password is less than 7 characters
      */
     public void setPassword(String password) throws Exception {
         if(!password.equals("")) {

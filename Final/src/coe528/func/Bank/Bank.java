@@ -1,7 +1,7 @@
 /** Bank App - COE528
  @author Gabriel Casciano, 500744076
- @since Nov,13, 2019
- @version 0.1
+ @since Nov, 25, 2019
+ @version 1.0
  */
 package coe528.func.Bank;
 
@@ -14,7 +14,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * Bank class
+ */
 public class Bank {
 
     //Database objects
@@ -39,19 +41,19 @@ public class Bank {
 
     /** Use to get the list of accounts
      *
-     * @return List<Account>, this.accounts
+     * @return List(Account), this.accounts
      */
     public List<Account> getAccounts(){ return accounts; }
 
     /** Use to get the list of customers
      *
-     * @return List<Customer>, this.customers
+     * @return List(Customer), this.customers
      */
     public List<Customer> getCustomers(){ return new LinkedList<>(customers); }
 
     /** Use to get the list of managers
      *
-     * @return List<Manager>, this.managers
+     * @return List(Manager), this.managers
      */
     public List<Manager> getManagers(){ return managers; }
 
