@@ -13,7 +13,7 @@ public class Customer extends User{
 
     /** Empty Constructor
      *
-     * @throws Exception
+     * @throws Exception the exception will not be thrown, dont worry
      */
     public Customer()throws Exception{
         super("", "");
@@ -43,10 +43,10 @@ public class Customer extends User{
 
     /** Manual Constructor
      *
-     * @param id
-     * @param username
-     * @param password
-     * @throws Exception
+     * @param id the id number this customer will be initialized with
+     * @param username the username this customer will be initialized with
+     * @param password the password this customer will be initizlized with
+     * @throws Exception if the password format is not correct, an exception will be thrown
      */
     public Customer(int id, String username, String password) throws Exception{
         super(id, username, password);

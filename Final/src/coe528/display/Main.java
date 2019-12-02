@@ -31,7 +31,7 @@ public class Main extends Application {
         testBank = new Bank(admin);
 
         if(db)
-           testBank.loadBackUp(admin);
+           testBank.loadBackUp();
         else {
             testBank.addCustomer(custom, admin);
             testBank.addAccount(custom, 100, admin);

@@ -17,25 +17,52 @@ import java.util.List;
 
 public class Bank {
 
-
-    static final String DB_URL = "jdbc:sqlite:bank.db";
-    // More database bs
+    //Database objects
+    static final String DB_URL = "jdbc:sqlite:bank.db";//URL for the database
     private static Connection conn = null;
     private static Statement stmnt = null;
 
+    //Lists of Users and accounts
     private static List<Account> accounts = new LinkedList<>();
     private static List<Customer> customers = new LinkedList<>();
     private static List<Manager> managers = new LinkedList<>();
 
+    /** Default Constructor
+     *
+     * @param newManager the manager that we want to initialize the bank with
+     */
     public Bank(Manager newManager){
         managers.add(newManager);
     }
-    //get & set
+
+    //Getters
+
+    /** Use to get the list of accounts
+     *
+     * @return List<Account>, this.accounts
+     */
     public List<Account> getAccounts(){ return accounts; }
+
+    /** Use to get the list of customers
+     *
+     * @return List<Customer>, this.customers
+     */
     public List<Customer> getCustomers(){ return new LinkedList<>(customers); }
+
+    /** Use to get the list of managers
+     *
+     * @return List<Manager>, this.managers
+     */
     public List<Manager> getManagers(){ return managers; }
 
     //administration
+
+    /** Use to add a customer to the bank
+     *
+     * @param customer the customer to be added
+     * @param admin the manager adding the customer to the bank
+     * @throws Exception if admin is not a manager, if the customer is null, and if the customer already exists
+     */
     public void addCustomer(Customer customer, Manager admin)throws Exception{
         if(admin.getClass() != Manager.class)
             throw new Exception("Not an admin");
@@ -45,6 +72,14 @@ public class Bank {
             throw new IllegalArgumentException("customer already exists");
         customers.add(customer);
     }
+
+    /** Use to add a customer to the bank
+     *
+     * @param username the username for the new Customer
+     * @param password the password for the new Customer
+     * @param admin the Manager that is creating the new Customer
+     * @throws Exception if admin is not a manager, if the customer is null, and if the customer already exists
+     */
     public void addCustomer(String username, String password, Manager admin)throws Exception{
         if(admin.getClass() != Manager.class)
             throw new Exception("Not an admin");
@@ -55,6 +90,13 @@ public class Bank {
 
         customers.add(new Customer(username, password));
     }
+
+    /** Use to remove a customer from the bank
+     *
+     * @param customer the customer to be removed from the bank
+     * @param admin the Manager that is removing the Customer
+     * @throws Exception if admin is not a manager, and if the customer is null
+     */
     public void removeCustomer(Customer customer, Manager admin)throws Exception{
         if(admin.getClass() != Manager.class)
             throw new Exception("Not an admin");
@@ -67,6 +109,12 @@ public class Bank {
         }
     }
 
+    /** Use to add a manager to the bank
+     *
+     * @param newMan the new manager to be added to the bank
+     * @param admin the Manager that is creating the new Manager
+     * @throws Exception if admin is not a manager, and if the new manager is null
+     */
     public void addManager(Manager newMan, Manager admin)throws Exception{
         if(admin.getClass() != Manager.class)
             throw new Exception("not an admin");
@@ -77,6 +125,13 @@ public class Bank {
         System.out.println("Manager Added: " + newMan.toString());
     }
 
+    /** Use to add a new account to the bank
+     *
+     * @param customer the customer that is associated to the new account
+     * @param initialBalance the initial balance of the new account
+     * @param admin the Manager that is creating the new Manager
+     * @throws Exception if admin is not a manager, if the customer is null, and if the initial balance is less than 0
+     */
     public void addAccount(Customer customer, double initialBalance, Manager admin) throws Exception{
         if(admin.getClass() != Manager.class)
             throw new Exception("Not an admin");
@@ -87,6 +142,13 @@ public class Bank {
 
         accounts.add(new Account(initialBalance, customer));
     }
+
+    /** Use to remove an account from the bank
+     *
+     * @param account the account to be removed from the bank
+     * @param admin the Manager that is removing the account from the bank
+     * @throws Exception if the admin is not a manager, if the account is null
+     */
     public void removeAccount(Account account, Manager admin) throws Exception{
         if(admin.getClass() != Manager.class)
             throw new Exception("Not an admin");
@@ -98,19 +160,16 @@ public class Bank {
                 c.remove();
         }
     }
-    public void removeAccount(Customer customer, Manager admin) throws Exception{
-        if(admin.getClass() != Manager.class)
-            throw new Exception("Not an admin");
-        if(customer == null)
-            throw new NullPointerException("customer is null");
-        for(Iterator<Account> c = accounts.iterator(); c.hasNext();){
-            Account acnt = c.next();
-            if(acnt.getOwner().equals(customer))
-                accounts.remove(c);
-        }
-    }
 
     //customer functions
+
+    /** Use to make a deposit into a customers account
+     *
+     * @param account the account that funds are to be added to
+     * @param user the user that is associated to the account
+     * @param amount the amount of money to be deposited into the account
+     * @throws Exception if the user does not exist, if the account does not exist, and any exceptions thrown from the account object
+     */
     public void makeDeposit(Account account, User user, double amount) throws Exception{
         if(user == null || customers.contains(user) || managers.contains(user))
             throw new IllegalArgumentException("user does not exist");
@@ -123,6 +182,14 @@ public class Bank {
                 acnt.deposit(amount);
         }
     }
+
+    /** Use to withdraw money from the account
+     *
+     * @param account the account that funds with be withdrawn from
+     * @param user the user that is associated with the account
+     * @param amount the amount of funds to be withdrawn
+     * @throws Exception if the user does not exist, if the account does not exist, and any exceptions thrown from the account object
+     */
     public void makeWithdraw(Account account, User user, double amount) throws Exception{
         if(user == null || customers.contains(user) || managers.contains(user))
             throw new IllegalArgumentException("user does not exist");
@@ -135,6 +202,14 @@ public class Bank {
                 acnt.withdraw(amount);
         }
     }
+
+    /** Use to make a purchase with money from the account
+     *
+     * @param account the account that funds will be removed from
+     * @param user the user that is associated with the account
+     * @param amount the amount of funds to be removed
+     * @throws Exception if the user does not exists, if the account does not exist, and any exceptions thrown from the account object
+     */
     public void makePurchase(Account account, User user, double amount) throws Exception{
         if(user == null || customers.contains(user) || managers.contains(user))
             throw new IllegalArgumentException("user does not exist");
@@ -149,6 +224,13 @@ public class Bank {
     }
 
     //utils
+
+    /** Use to find a Manager by id number
+     *
+     * @param id the id number associated to the manager that is being searched for
+     * @return the Manager associated to the id number
+     * @throws Exception if the Manager associated to the id number does not exist
+     */
     public Manager findManager(int id) throws Exception{
         for(Iterator<Manager> m = managers.iterator(); m.hasNext();){
             Manager man = m.next();
@@ -156,8 +238,15 @@ public class Bank {
             if(man.getId() == id)
                 return new Manager(man);
         }
-        return null;
+        throw new NullPointerException("Manager does not exist");
     }
+
+    /** Use to find a Manager by username
+     *
+     * @param username the username associated to the manager that is being searched for
+     * @return the Manager associated to the username
+     * @throws Exception if the Manager associated to the username does not exist
+     */
     public Manager findManager(String username)throws Exception{
         for(Iterator<Manager> m = managers.iterator(); m.hasNext();){
             Manager man = m.next();
@@ -165,8 +254,15 @@ public class Bank {
             if(man.getUsername().equals(username))
                 return new Manager(man);
         }
-        return null;
+        throw new NullPointerException("Manager does not exist");
     }
+
+    /** Use to find a custom by id number
+     *
+     * @param id the id number associated to the customer that is being searched for
+     * @return the Customer associated to the id number
+     * @throws Exception if the Customer associated to the id number does not exist
+     */
     public Customer findCustomer(int id) throws Exception{
         for(Iterator<Customer> c = customers.iterator(); c.hasNext();){
             Customer cust = c.next();
@@ -174,8 +270,15 @@ public class Bank {
             if(cust.getId() == id)
                 return new Customer(cust);
         }
-        return null;
+        throw new NullPointerException("Customer does not exist");
     }
+
+    /** Use to find a customer by username
+     *
+     * @param username the username associated to the customer that is being searched for
+     * @return the Customer associated to the username
+     * @throws Exception if the Customer associated to the username does not exist
+     */
     public Customer findCustomer(String username) throws Exception{
         for(Iterator<Customer> c = customers.iterator(); c.hasNext();){
             Customer cust = c.next();
@@ -183,8 +286,15 @@ public class Bank {
             if(cust.getUsername().equals(username))
                 return new Customer(cust);
         }
-        return null;
+        throw new NullPointerException("Customer does not exist");
     }
+
+    /** Use to find an account by customer
+     *
+     * @param customer the Customer that is associated to the account
+     * @return the Account associated to the customer
+     * @throws Exception if the account associated to the customer does not exist
+     */
     public Account findAccount(Customer customer)throws Exception{
         for(Iterator<Account> a = accounts.iterator(); a.hasNext();){
             Account acnt = a.next();
@@ -192,9 +302,15 @@ public class Bank {
             if(acnt.getOwner().equals(customer))
                 return new Account(acnt);
         }
-        System.out.println("No account found");
-        return new Account();
+        throw new NullPointerException("Account does not exist");
     }
+
+    /** Use to find an account by id number
+     *
+     * @param id the id number that is associated to the account
+     * @return the Account associated to the id number
+     * @throws Exception if the account associated to the id number does not exist
+     */
     public Account findAccount(int id)throws Exception{
         for(Iterator<Account> a = accounts.iterator(); a.hasNext();){
             Account acnt = a.next();
@@ -202,11 +318,15 @@ public class Bank {
             if(acnt.getAccountNumber() == id)
                 return new Account(acnt);
         }
-        return new Account();
+        throw new NullPointerException("Account does not exist");
     }
 
     //database
-    public void loadBackUp(Manager admin){
+
+    /** Use to load the bank's data base
+     *
+     */
+    public void loadBackUp(){
 
         try{
             conn = DriverManager.getConnection(DB_URL);
@@ -261,6 +381,10 @@ public class Bank {
             }
         }
     }
+
+    /** Use to back up the bank to a database
+     *
+     */
     public void backUp(){//back up to sql db
         try{
 
