@@ -14,8 +14,8 @@ import coe528.func.Users.User;
  * Account class
  */
 public class Account extends Customer {
-    private static int UPPER_LIMIT = 10000;
-    private static int GOLD = 100000, PLATINUM = 20000;
+    private static int UPPER_LIMIT = 1000000;
+    private static int GOLD = 10000, PLATINUM = 20000;
     private static int MASTER_ACCOUNT_NUMBER = 1;
     private int accountNumber;
     private User owner;
@@ -112,7 +112,7 @@ public class Account extends Customer {
         if(amount > UPPER_LIMIT)
             throw new Exception("withdraw exceeds upper limit");
         if(this.accountBalance - amount <= 0)
-            throw new Exception("not enough funds");
+            throw new IllegalArgumentException("not enough funds");
 
         this.accountBalance -= amount;
 
@@ -126,9 +126,9 @@ public class Account extends Customer {
      */
     public void purchase(double amount)throws Exception{
         double costOfPurchase;
-        if(amount >= PLATINUM)
+        if(accountBalance >= PLATINUM)
             costOfPurchase = 0;
-        else if(amount >= GOLD)
+        else if(accountBalance >= GOLD)
             costOfPurchase = 10;
         else
             costOfPurchase = 20;

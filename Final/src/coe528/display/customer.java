@@ -43,7 +43,7 @@ public class customer implements Initializable{
         Home();
     }
 
-    private void alertWindow(boolean alert){
+    private void alertWindow(){
         Parent root1;
 
         try {
@@ -118,8 +118,11 @@ public class customer implements Initializable{
     private void makeWithdraw(ActionEvent event){
         try{
             bank.makeWithdraw(acnt, currentUser, Integer.parseInt(value_to_move.getText()));
-        }catch(Exception e){
-            alertWindow(false);
+        }catch(IllegalArgumentException i){
+            alertWindow();
+        }
+        catch(Exception e){
+
         }finally{
             updateAccount();
             value_to_move.clear();
@@ -131,7 +134,7 @@ public class customer implements Initializable{
         try{
             bank.makePurchase(acnt, currentUser, Integer.parseInt(purchase_amount.getText()));
         }catch(Exception e){
-           alertWindow(true);
+           alertWindow();
         }finally{
             updateAccount();
             purchase_amount.clear();

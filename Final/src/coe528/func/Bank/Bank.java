@@ -19,43 +19,121 @@ import java.util.List;
  */
 public class Bank {
 
+    /*
+        Overview: the bank utilizes a non-mutable, bounded collection of Accounts, that operates as a LinkedList,
+        the bank also uses a non-mutable, bounded collection of Customers, that operates as a LinkedList, and another
+        non-mutable, bounded collection of Managers, that operate as a LinkedList.
+
+        Abstraction Functions:
+        AF(a) = accounts(0), accounts(1), ... , accounts(a)
+        so long as accounts(a) is not null and adheres to the representation invariant
+
+        AF(c) = customers(0), customers(1), ..., customers(c)
+        so long as customers(c) is not null and adheres to the representation invariant
+
+        AF(m) = managers(0), managers(1), ..., managers(m)
+        so long as managers(m) is not null and adheres to the representation invariant
+
+        Representation Invariant:
+        accounts(a) != null & no two accounts can be the same
+
+        customers(c) != null & no two customers can be the same
+
+        managers(m) != null & no two managers may be the same
+
+     */
+
+
     //Database objects
     static final String DB_URL = "jdbc:sqlite:bank.db";//URL for the database
     private static Connection conn = null;
     private static Statement stmnt = null;
 
-    //Lists of Users and accounts
+    //Lists of Users and accounts, also the abstraction representations
     private static List<Account> accounts = new LinkedList<>();
     private static List<Customer> customers = new LinkedList<>();
     private static List<Manager> managers = new LinkedList<>();
+
+
+    //We do not check if it is null, because when null accounts are added the method will thrown an exception, so it is impossible
+    public boolean repOk(){
+        int duplicates = 0;
+
+        for(Iterator<Account> a = this.getAccounts().iterator(); a.hasNext();){
+            for(Iterator<Account> a2 = this.getAccounts().iterator(); a2.hasNext();)
+                if(a.equals(a2)){ duplicates++; }
+            if(duplicates > this.getAccounts().size())
+                return false;
+        }
+        duplicates = 0;
+        for(Iterator<Manager> a = this.getManagers().iterator(); a.hasNext();){
+            for(Iterator<Manager> a2 = this.getManagers().iterator(); a2.hasNext();)
+                if(a.equals(a2)){ duplicates++; }
+            if(duplicates > this.getManagers().size())
+                return false;
+        }
+        duplicates = 0;
+        for(Iterator<Customer> a = this.getCustomers().iterator(); a.hasNext();){
+            for(Iterator<Customer> a2 = this.getCustomers().iterator(); a2.hasNext();)
+                if(a.equals(a2)){ duplicates++; }
+            if(duplicates > this.getCustomers().size())
+                return false;
+        }
+        return true;
+    }
+
 
     /** Default Constructor
      *
      * @param newManager the manager that we want to initialize the bank with
      */
     public Bank(Manager newManager){
+        /*
+            MODIFIES: this
+            EFFECTS: adds the primary admin to the this.managers upon creation of the bank
+         */
         managers.add(newManager);
     }
 
-    //Getters
 
     /** Use to get the list of accounts
      *
      * @return List(Account), this.accounts
      */
-    public List<Account> getAccounts(){ return accounts; }
+    public List<Account> getAccounts(){
+        /*
+            REQUIRES: this to be instantiated
+            MODIFIES: none
+            EFFECTS: returns this.accounts
+         */
+        return new LinkedList<>(accounts);
+    }
 
     /** Use to get the list of customers
      *
      * @return List(Customer), this.customers
      */
-    public List<Customer> getCustomers(){ return new LinkedList<>(customers); }
+    public List<Customer> getCustomers(){
+        /*
+            REQUIRES: this to be instantiated
+            MODIFIES: none
+            EFFECTS: returns this.customers
+         */
+        return new LinkedList<>(customers);
+    }
 
     /** Use to get the list of managers
      *
      * @return List(Manager), this.managers
      */
-    public List<Manager> getManagers(){ return managers; }
+    public List<Manager> getManagers(){
+        /*
+            REQUIRES: this to be instantiated
+            MODIFIES: none
+            EFFECTS: returns this.managers
+         */
+        return new LinkedList<>(managers);
+    }
 
     //administration
 
@@ -66,6 +144,15 @@ public class Bank {
      * @throws Exception if admin is not a manager, if the customer is null, and if the customer already exists
      */
     public void addCustomer(Customer customer, Manager admin)throws Exception{
+        /*
+            REQUIRES: this to be instantiated
+            MODIFIES: this.customers
+            EFFECTS: adds a new customer to this.customers, checks if the customer is null, checks if the
+            admin is a manager, and not a user that has been casted to a Manager.
+         */
+
+        if(admin == null)
+            throw new NullPointerException("Admin is null");
         if(admin.getClass() != Manager.class)
             throw new Exception("Not an admin");
         if(customer == null)
@@ -83,6 +170,15 @@ public class Bank {
      * @throws Exception if admin is not a manager, if the customer is null, and if the customer already exists
      */
     public void addCustomer(String username, String password, Manager admin)throws Exception{
+        /*
+            REQUIRES: this to be instantiated
+            MODIFIES: this.customers
+            EFFECTS: adds a new customer to this.customers, checks if the username is null, checks if the password is null, checks if the
+            admin is a manager, and not a user that has been casted to a Manager.
+         */
+
+        if(admin == null)
+            throw new NullPointerException("Admin is null");
         if(admin.getClass() != Manager.class)
             throw new Exception("Not an admin");
         if(username == null)
@@ -100,6 +196,15 @@ public class Bank {
      * @throws Exception if admin is not a manager, and if the customer is null
      */
     public void removeCustomer(Customer customer, Manager admin)throws Exception{
+         /*
+            REQUIRES: this to be instantiated
+            MODIFIES: this.customers
+            EFFECTS: removes the specified customer from this.customers, checks: customer != null, admin != null, checks if the
+            admin is a manager, and not a user that has been casted to a Manager.
+         */
+
+        if(admin == null)
+            throw new NullPointerException("Admin is null");
         if(admin.getClass() != Manager.class)
             throw new Exception("Not an admin");
         if(customer == null)
@@ -118,6 +223,14 @@ public class Bank {
      * @throws Exception if admin is not a manager, and if the new manager is null
      */
     public void addManager(Manager newMan, Manager admin)throws Exception{
+        /*
+            REQUIRES: this to be instantiated
+            MODIFIES: this.managers
+            EFFECTS: adds a new manager to this.managers, checks if the new manager is null, checks if admin != null, checks if the
+            admin is a manager, and not a user that has been casted to a Manager.
+         */
+        if(admin == null)
+            throw new NullPointerException("Admin is null");
         if(admin.getClass() != Manager.class)
             throw new Exception("not an admin");
         if(newMan == null)
@@ -135,6 +248,14 @@ public class Bank {
      * @throws Exception if admin is not a manager, if the customer is null, and if the initial balance is less than 0
      */
     public void addAccount(Customer customer, double initialBalance, Manager admin) throws Exception{
+        /*
+            REQUIRES: this to be instantiated
+            MODIFIES: this.accounts
+            EFFECTS: adds a new account to this.accounts, checks customer != null, checks if admin != null, checks if the
+            admin is a manager, and not a user that has been casted to a Manager, checks initialBalance >= 0.
+         */
+        if(admin == null)
+            throw new NullPointerException("Admin is null");
         if(admin.getClass() != Manager.class)
             throw new Exception("Not an admin");
         if(customer == null)
@@ -152,6 +273,15 @@ public class Bank {
      * @throws Exception if the admin is not a manager, if the account is null
      */
     public void removeAccount(Account account, Manager admin) throws Exception{
+        /*
+            REQUIRES: this to be instantiated
+            MODIFIES: this.accounts
+            EFFECTS: removes the specified account from this.accounts, checks: account != null, admin != null, checks if the
+            admin is a manager, and not a user that has been casted to a Manager.
+         */
+
+        if(admin == null)
+            throw new NullPointerException("Admin is null");
         if(admin.getClass() != Manager.class)
             throw new Exception("Not an admin");
         if(account == null)
@@ -173,6 +303,12 @@ public class Bank {
      * @throws Exception if the user does not exist, if the account does not exist, and any exceptions thrown from the account object
      */
     public void makeDeposit(Account account, User user, double amount) throws Exception{
+        /*
+            REQUIRES: this to be instantiated
+            MODIFIES: this.accounts
+            EFFECTS: makes a deposit into the specified account, checks if the user exists, checks if the account exists
+        */
+
         if(user == null || customers.contains(user) || managers.contains(user))
             throw new IllegalArgumentException("user does not exist");
         if(account == null || accounts.contains(account))
@@ -193,6 +329,12 @@ public class Bank {
      * @throws Exception if the user does not exist, if the account does not exist, and any exceptions thrown from the account object
      */
     public void makeWithdraw(Account account, User user, double amount) throws Exception{
+        /*
+            REQUIRES: this to be instantiated
+            MODIFIES: this.accounts
+            EFFECTS: removes money from the specified account, checks if the user is exists, checks if the account exists,
+            checks if the user is the same one that is associated to the account.
+        */
         if(user == null || customers.contains(user) || managers.contains(user))
             throw new IllegalArgumentException("user does not exist");
         if(account == null || accounts.contains(account))
@@ -347,6 +489,7 @@ public class Bank {
 
                 managers.add(new Manager(id, username, password));
             }
+            //read customers
             rs = stmnt.executeQuery("SELECT * FROM Customers");
             while (rs.next()) {
                 id = rs.getInt("id");
@@ -355,7 +498,7 @@ public class Bank {
 
                 customers.add(new Customer(id, username, password));
             }
-
+            //read accounts
             rs = stmnt.executeQuery("SELECT * FROM Accounts");
             while(rs.next()){
                 username = rs.getString("owner_username");
